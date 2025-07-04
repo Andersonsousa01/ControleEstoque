@@ -3,10 +3,929 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdegaMax - Sistema de Gestão</title>
-    <!-- Seu código HTML aqui -->
+    <title>AdegaMax - Sistema de Gestão de Bebidas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .sidebar-item { transition: all 0.2s ease; }
+        .sidebar-item:hover { background-color: #f3f4f6; }
+        .sidebar-item.active { background-color: #dbeafe; color: #1d4ed8; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-<body>
-    <!-- Conteúdo do sistema -->
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 shadow-lg">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold" id="system-name">AdegaMax</h1>
+                    <p class="text-sm opacity-90" id="system-description">Sistema de Gestão de Adega de Bebidas</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <svg class="w-6 h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5-5v5z"></path>
+                    </svg>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs" id="notification-count">3</span>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm font-semibold">Anderson Sousa</p>
+                    <p class="text-xs opacity-75">Administrador</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto flex">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-lg min-h-screen">
+            <div class="p-4">
+                <div class="space-y-2">
+                    <button onclick="showTab('dashboard')" class="sidebar-item active w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left" data-tab="dashboard">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span class="font-medium">Dashboard</span>
+                    </button>
+                    
+                    <button onclick="showTab('produtos')" class="sidebar-item w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-gray-600" data-tab="produtos">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                        <span class="font-medium">Produtos</span>
+                    </button>
+                    
+                    <button onclick="showTab('fornecedores')" class="sidebar-item w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-gray-600" data-tab="fornecedores">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                        </svg>
+                        <span class="font-medium">Fornecedores</span>
+                    </button>
+                    
+                    <button onclick="showTab('relatorios')" class="sidebar-item w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-gray-600" data-tab="relatorios">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <span class="font-medium">Relatórios</span>
+                    </button>
+                    
+                    <button onclick="showTab('configuracoes')" class="sidebar-item w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-gray-600" data-tab="configuracoes">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="font-medium">Configurações</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
+                        <div class="text-sm text-gray-600">
+                            Última atualização: <span id="current-time"></span>
+                        </div>
+                    </div>
+
+                    <!-- Cards de Resumo -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Total de Produtos</p>
+                                    <p class="text-2xl font-bold text-blue-600" id="total-produtos">3</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Itens em Estoque</p>
+                                    <p class="text-2xl font-bold text-green-600" id="total-estoque">23</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Estoque Baixo</p>
+                                    <p class="text-2xl font-bold text-red-600" id="estoque-baixo">2</p>
+                                </div>
+                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Valor Total</p>
+                                    <p class="text-2xl font-bold text-purple-600">R$ 1.456,80</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alertas -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                            Alertas Importantes
+                        </h3>
+                        
+                        <div id="alertas-container">
+                            <div class="mb-4">
+                                <h4 class="font-medium text-red-600 mb-2">Produtos com Estoque Baixo:</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium">Refrigerante Cola 350ml</p>
+                                            <p class="text-sm text-gray-600">Estoque: 5 | Mínimo: 20</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-medium text-blue-600">Fornecedor:</p>
+                                            <p class="text-sm text-gray-600">Distribuidora Regional</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium">Água Mineral 500ml</p>
+                                            <p class="text-sm text-gray-600">Estoque: 3 | Mínimo: 15</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-medium text-blue-600">Fornecedor:</p>
+                                            <p class="text-sm text-gray-600">Distribuidora de Bebidas São Paulo</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produtos Tab -->
+            <div id="produtos" class="tab-content">
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-bold text-gray-800">Produtos</h2>
+                        <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            <span>Novo Produto</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Busca -->
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <div class="flex items-center space-x-4">
+                            <div class="relative flex-1">
+                                <svg class="absolute left-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                <input
+                                    type="text"
+                                    placeholder="Buscar produtos..."
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lista de Produtos -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produto</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estoque</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="produtos-table">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">Cerveja Pilsen 350ml</div>
+                                            <div class="text-sm text-gray-500">CP001</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                            Cervejas
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                                            15 unidades
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        R$ 4,55
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-900">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Mais produtos serão adicionados aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações Tab -->
+            <div id="configuracoes" class="tab-content">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Configurações</h2>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold mb-4">Configurações do Sistema</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nome do Sistema
+                                </label>
+                                <input
+                                    type="text"
+                                    id="system-name-input"
+                                    value="AdegaMax"
+                                    class="border rounded px-3 py-2 w-full max-w-md"
+                                    placeholder="Digite o nome do seu sistema"
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Descrição do Sistema
+                                </label>
+                                <input
+                                    type="text"
+                                    id="system-description-input"
+                                    value="Sistema de Gestão de Adega de Bebidas"
+                                    class="border rounded px-3 py-2 w-full max-w-md"
+                                    placeholder="Digite a descrição do seu sistema"
+                                />
+                            </div>
+                            <button onclick="updateSystemInfo()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Configurações Rápidas -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold mb-4">Configurações Rápidas</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button onclick="setSystemConfig('AdegaMax', 'Sistema de Gestão de Adega de Bebidas')" class="p-3 border rounded-lg hover:bg-gray-50 text-left">
+                                <div class="font-medium">AdegaMax</div>
+                                <div class="text-sm text-gray-600">Para adegas de bebidas em geral</div>
+                            </button>
+                            <button onclick="setSystemConfig('VitaVinho', 'Sistema de Gestão Premium para Distribuidoras')" class="p-3 border rounded-lg hover:bg-gray-50 text-left">
+                                <div class="font-medium">VitaVinho</div>
+                                <div class="text-sm text-gray-600">Para distribuidoras de vinhos</div>
+                            </button>
+                            <button onclick="setSystemConfig('BrewStock', 'Sistema de Gestão para Cervejarias')" class="p-3 border rounded-lg hover:bg-gray-50 text-left">
+                                <div class="font-medium">BrewStock</div>
+                                <div class="text-sm text-gray-600">Para cervejarias e bares</div>
+                            </button>
+                            <button onclick="setSystemConfig('BebidaStock', 'Sistema de Controle de Estoque de Bebidas')" class="p-3 border rounded-lg hover:bg-gray-50 text-left">
+                                <div class="font-medium">BebidaStock</div>
+                                <div class="text-sm text-gray-600">Para controle geral de bebidas</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outros Tabs (ocultos por padrão) -->
+            <div id="fornecedores" class="tab-content">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Fornecedores</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-gray-600">Seção de fornecedores em desenvolvimento...</p>
+                </div>
+            </div>
+
+            <div id="relatorios" class="tab-content">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Relatórios</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-gray-600">Seção de relatórios em desenvolvimento...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Função para mostrar/ocultar tabs
+        function showTab(tabName) {
+            // Ocultar todas as tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remover classe active de todos os botões
+            const buttons = document.querySelectorAll('.sidebar-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Mostrar tab selecionada
+            document.getElementById(tabName).classList.add('active');
+            
+            // Adicionar classe active ao botão selecionado
+            const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('active');
+            }
+        }
+
+        // Função para atualizar informações do sistema
+        function updateSystemInfo() {
+            const name = document.getElementById('system-name-input').value;
+            const description = document.getElementById('system-description-input').value;
+            
+            document.getElementById('system-name').textContent = name;
+            document.getElementById('system-description').textContent = description;
+            
+            // Salvar no localStorage
+            localStorage.setItem('systemName', name);
+            localStorage.setItem('systemDescription', description);
+            
+            alert('Configurações salvas com sucesso!');
+        }
+
+        // Função para configurações rápidas
+        function setSystemConfig(name, description) {
+            document.getElementById('system-name-input').value = name;
+            document.getElementById('system-description-input').value = description;
+            
+            document.getElementById('system-name').textContent = name;
+            document.getElementById('system-description').textContent = description;
+            
+            // Salvar no localStorage
+            localStorage.setItem('systemName', name);
+            localStorage.setItem('systemDescription', description);
+        }
+
+        // Função para atualizar hora atual
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('pt-BR');
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+            }
+        }
+
+        // Carregar configurações salvas
+        function loadSavedConfig() {
+            const savedName = localStorage.getItem('systemName');
+            const savedDescription = localStorage.getItem('systemDescription');
+            
+            if (savedName) {
+                document.getElementById('system-name').textContent = savedName;
+                document.getElementById('system-name-input').value = savedName;
+            }
+            
+            if (savedDescription) {
+                document.getElementById('system-description').textContent = savedDescription;
+                document.getElementById('system-description-input').value = savedDescription;
+            }
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedConfig();
+            updateCurrentTime();
+            
+            // Atualizar hora a cada minuto
+            setInterval(updateCurrentTime, 60000);
+        });
+
+        // Adicionar mais produtos à tabela (exemplo)
+        const produtosExemplo = [
+            {
+                nome: 'Refrigerante Cola 350ml',
+                codigo: 'RC002',
+                categoria: 'Refrigerantes',
+                estoque: 5,
+                estoqueMinimo: 20,
+                valor: 3.38,
+                status: 'baixo'
+            },
+            {
+                nome: 'Água Mineral 500ml',
+                codigo: 'AM003',
+                categoria: 'Águas',
+                estoque: 3,
+                estoqueMinimo: 15,
+                valor: 1.68,
+                status: 'baixo'
+            }
+        ];
+
+        function adicionarProdutosTabela() {
+            const tabela = document.getElementById('produtos-table');
+            
+            produtosExemplo.forEach(produto => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                
+                const statusClass = produto.status === 'baixo' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">${produto.nome}</div>
+                            <div class="text-sm text-gray-500">${produto.codigo}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                            ${produto.categoria}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs rounded-full ${statusClass}">
+                            ${produto.estoque} unidades
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        R$ ${produto.valor.toFixed(2)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        <button class="text-blue-600 hover:text-blue-900">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-red-600 hover:text-red-900">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                
+                tabela.appendChild(row);
+            });
+        }
+
+        // Adicionar produtos quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            adicionarProdutosTabela();
+        });
+    </script>
+</body>
+</html>
+
+        const AdegaMaxSystem = () => {
+            const [activeTab, setActiveTab] = useStoredState('activeTab', 'dashboard');
+            const [produtos, setProdutos] = useStoredState('produtos', []);
+            const [fornecedores, setFornecedores] = useStoredState('fornecedores', []);
+            const [movimentacoes, setMovimentacoes] = useStoredState('movimentacoes', []);
+            const [showModal, setShowModal] = useState(false);
+            const [modalType, setModalType] = useState('');
+            const [editingItem, setEditingItem] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [systemName, setSystemName] = useStoredState('systemName', 'AdegaMax');
+            const [systemDescription, setSystemDescription] = useStoredState('systemDescription', 'Sistema de Gestão de Adega de Bebidas');
+
+            // Dados iniciais de exemplo
+            useEffect(() => {
+                if (produtos.length === 0) {
+                    setProdutos([
+                        {
+                            id: 1,
+                            nome: 'Cerveja Pilsen 350ml',
+                            codigo: 'CP001',
+                            categoria: 'Cervejas',
+                            estoque: 15,
+                            estoqueMinimo: 10,
+                            valorCompra: 3.50,
+                            margemLucro: 30,
+                            valorVenda: 4.55,
+                            validade: '2025-12-15',
+                            fornecedorId: 1,
+                            status: 'ativo'
+                        },
+                        {
+                            id: 2,
+                            nome: 'Refrigerante Cola 350ml',
+                            codigo: 'RC002',
+                            categoria: 'Refrigerantes',
+                            estoque: 5,
+                            estoqueMinimo: 20,
+                            valorCompra: 2.50,
+                            margemLucro: 35,
+                            valorVenda: 3.38,
+                            validade: '2025-08-20',
+                            fornecedorId: 2,
+                            status: 'ativo'
+                        },
+                        {
+                            id: 3,
+                            nome: 'Água Mineral 500ml',
+                            codigo: 'AM003',
+                            categoria: 'Águas',
+                            estoque: 3,
+                            estoqueMinimo: 15,
+                            valorCompra: 1.20,
+                            margemLucro: 40,
+                            valorVenda: 1.68,
+                            validade: '2026-01-10',
+                            fornecedorId: 1,
+                            status: 'ativo'
+                        }
+                    ]);
+                }
+
+                if (fornecedores.length === 0) {
+                    setFornecedores([
+                        {
+                            id: 1,
+                            nome: 'Distribuidora de Bebidas São Paulo',
+                            contato: 'João Silva',
+                            telefone: '(11) 99999-9999',
+                            email: 'contato@bebidassaopaulo.com.br',
+                            endereco: 'Rua das Bebidas, 123',
+                            categoria: 'Bebidas Diversas',
+                            status: 'ativo'
+                        },
+                        {
+                            id: 2,
+                            nome: 'Distribuidora Regional',
+                            contato: 'Maria Santos',
+                            telefone: '(11) 88888-8888',
+                            email: 'vendas@regional.com.br',
+                            endereco: 'Av. Central, 456',
+                            categoria: 'Refrigerantes',
+                            status: 'ativo'
+                        }
+                    ]);
+                }
+            }, []);
+
+            // Calcular estatísticas do dashboard
+            const stats = useMemo(() => {
+                const totalProdutos = produtos.length;
+                const estoqueTotal = produtos.reduce((sum, p) => sum + p.estoque, 0);
+                const produtosBaixoEstoque = produtos.filter(p => p.estoque <= p.estoqueMinimo).length;
+                const valorTotalEstoque = produtos.reduce((sum, p) => sum + (p.valorCompra * p.estoque), 0);
+                
+                return {
+                    totalProdutos,
+                    estoqueTotal,
+                    produtosBaixoEstoque,
+                    valorTotalEstoque
+                };
+            }, [produtos]);
+
+            // Filtrar produtos
+            const produtosFiltrados = useMemo(() => {
+                return produtos.filter(produto =>
+                    produto.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    produto.codigo.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }, [produtos, searchTerm]);
+
+            // Funções para modais
+            const openModal = (type, item = null) => {
+                setModalType(type);
+                setEditingItem(item);
+                setShowModal(true);
+            };
+
+            const closeModal = () => {
+                setShowModal(false);
+                setEditingItem(null);
+                setModalType('');
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 shadow-lg">
+                        <div className="max-w-7xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                                <Package className="w-8 h-8" />
+                                <div>
+                                    <h1 className="text-2xl font-bold">{systemName}</h1>
+                                    <p className="text-sm opacity-90">{systemDescription}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <div className="relative">
+                                    <Bell className="w-6 h-6 cursor-pointer" />
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                        {stats.produtosBaixoEstoque}
+                                    </span>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm font-semibold">Anderson Sousa</p>
+                                    <p className="text-xs opacity-75">Administrador</p>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="max-w-7xl mx-auto flex">
+                        {/* Sidebar */}
+                        <div className="w-64 bg-white shadow-md min-h-screen">
+                            <nav className="p-4 space-y-2">
+                                <button 
+                                    onClick={() => setActiveTab('dashboard')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                                        activeTab === 'dashboard' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                                    }`}
+                                >
+                                    <Home className="w-5 h-5" />
+                                    <span>Dashboard</span>
+                                </button>
+                                
+                                <button 
+                                    onClick={() => setActiveTab('produtos')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                                        activeTab === 'produtos' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                                    }`}
+                                >
+                                    <Package className="w-5 h-5" />
+                                    <span>Produtos</span>
+                                </button>
+                                
+                                <button 
+                                    onClick={() => setActiveTab('fornecedores')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                                        activeTab === 'fornecedores' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                                    }`}
+                                >
+                                    <Users className="w-5 h-5" />
+                                    <span>Fornecedores</span>
+                                </button>
+                                
+                                <button 
+                                    onClick={() => setActiveTab('relatorios')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                                        activeTab === 'relatorios' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                                    }`}
+                                >
+                                    <BarChart3 className="w-5 h-5" />
+                                    <span>Relatórios</span>
+                                </button>
+                                
+                                <button 
+                                    onClick={() => setActiveTab('configuracoes')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                                        activeTab === 'configuracoes' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                                    }`}
+                                >
+                                    <Settings className="w-5 h-5" />
+                                    <span>Configurações</span>
+                                </button>
+                            </nav>
+                        </div>
+
+                        {/* Main Content */}
+                        <div className="flex-1 p-6">
+                            {/* Dashboard */}
+                            {activeTab === 'dashboard' && (
+                                <div className="space-y-6">
+                                    <h2 className="text-3xl font-bold text-gray-800">Dashboard</h2>
+                                    
+                                    {/* Stats Cards */}
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <div className="flex items-center">
+                                                <Package className="w-8 h-8 text-blue-600 mr-3" />
+                                                <div>
+                                                    <p className="text-2xl font-bold text-gray-800">{stats.totalProdutos}</p>
+                                                    <p className="text-sm text-gray-600">Total de Produtos</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <div className="flex items-center">
+                                                <BarChart3 className="w-8 h-8 text-green-600 mr-3" />
+                                                <div>
+                                                    <p className="text-2xl font-bold text-gray-800">{stats.estoqueTotal}</p>
+                                                    <p className="text-sm text-gray-600">Itens em Estoque</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <div className="flex items-center">
+                                                <AlertTriangle className="w-8 h-8 text-red-600 mr-3" />
+                                                <div>
+                                                    <p className="text-2xl font-bold text-gray-800">{stats.produtosBaixoEstoque}</p>
+                                                    <p className="text-sm text-gray-600">Estoque Baixo</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <div className="flex items-center">
+                                                <DollarSign className="w-8 h-8 text-purple-600 mr-3" />
+                                                <div>
+                                                    <p className="text-2xl font-bold text-gray-800">R$ {stats.valorTotalEstoque.toFixed(2)}</p>
+                                                    <p className="text-sm text-gray-600">Valor Total</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Alertas */}
+                                    {stats.produtosBaixoEstoque > 0 && (
+                                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                            <div className="flex items-center">
+                                                <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
+                                                <h3 className="font-semibold text-yellow-800">Produtos com Estoque Baixo</h3>
+                                            </div>
+                                            <div className="mt-2 space-y-1">
+                                                {produtos.filter(p => p.estoque <= p.estoqueMinimo).map(produto => (
+                                                    <p key={produto.id} className="text-sm text-yellow-700">
+                                                        {produto.nome} - Estoque: {produto.estoque} (Mínimo: {produto.estoqueMinimo})
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Produtos */}
+                            {activeTab === 'produtos' && (
+                                <div className="space-y-6">
+                                    <div className="flex justify-between items-center">
+                                        <h2 className="text-3xl font-bold text-gray-800">Produtos</h2>
+                                        <button 
+                                            onClick={() => openModal('produto')}
+                                            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center space-x-2"
+                                        >
+                                            <Plus className="w-4 h-4" />
+                                            <span>Novo Produto</span>
+                                        </button>
+                                    </div>
+                                    
+                                    {/* Busca */}
+                                    <div className="bg-white p-4 rounded-lg shadow-md">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="relative flex-1">
+                                                <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Buscar produtos..."
+                                                    value={searchTerm}
+                                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Lista de Produtos */}
+                                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                                        <table className="w-full">
+                                            <thead className="bg-gray-50">
+                                                <tr>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produto</th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estoque</th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {produtosFiltrados.map(produto => (
+                                                    <tr key={produto.id} className="hover:bg-gray-50">
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div>
+                                                                <div className="text-sm font-medium text-gray-900">{produto.nome}</div>
+                                                                <div className="text-sm text-gray-500">{produto.codigo}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                                                {produto.categoria}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <span className={`px-2 py-1 text-xs rounded-full ${
+                                                                produto.estoque <= produto.estoqueMinimo 
+                                                                    ? 'bg-red-100 text-red-800' 
+                                                                    : 'bg-green-100 text-green-800'
+                                                            }`}>
+                                                                {produto.estoque} unidades
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            R$ {produto.valorVenda.toFixed(2)}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                                            <button className="text-blue-600 hover:text-blue-900">
+                                                                <Edit className="w-4 h-4" />
+                                                            </button>
+                                                            <button className="text-red-600 hover:text-red-900">
+                                                                <Trash2 className="w-4 h-4" />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Configurações */}
+                            {activeTab === 'configuracoes' && (
+                                <div className="space-y-6">
+                                    <h2 className="text-3xl font-bold text-gray-800">Configurações</h2>
+                                    
+                                    <div className="bg-white rounded-lg shadow-md p-6">
+                                        <h3 className="text-lg font-semibold mb-4">Configurações do Sistema</h3>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Nome do Sistema
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={systemName}
+                                                    onChange={(e) => setSystemName(e.target.value)}
+                                                    className="border rounded px-3 py-2 w-full max-w-md"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Descrição do Sistema
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={systemDescription}
+                                                    onChange={(e) => setSystemDescription(e.target.value)}
+                                                    className="border rounded px-3 py-2 w-full max-w-md"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Renderizar o app
+        ReactDOM.render(<AdegaMaxSystem />, document.getElementById('app'));
+    </script>
 </body>
 </html>
