@@ -1,1 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesHub Pro - Sistema de Gestão Empresarial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 min-h-screen">
+    
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800">SalesHub Pro</h1>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors">Recursos</a>
+                    <a href="#tech" class="text-gray-600 hover:text-blue-600 transition-colors">Tecnologias</a>
+                    <a href="#github" class="text-gray-600 hover:text-blue-600 transition-colors">GitHub</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors">Contato</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-800 mb-6">
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        SalesHub Pro
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Sistema de Gestão Empresarial Completo
+                    <br>
+                    <span class="text-lg text-gray-500">Controle total do seu negócio em uma única plataforma</span>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#demo" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-play mr-2"></i>
+                        Ver Demo
+                    </a>
+                    <a href="#github" class="bg-white text-gray-700 px-8 py-4 rounded-xl font-semibold border-2 border-gray-200 hover:border-blue-300 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <i class="fab fa-github mr-2"></i>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 bg-white/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16">
+                🚀 Funcionalidades Principais
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dashboard -->
+                <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-pie text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Dashboard Executivo</h3>
+                    <ul class="text-gray-600 space-y-2 text-sm">
+                        <li>📊 Métricas em tempo real</li>
+                        <li>🔔 Alertas inteligentes</li>
+                        <li>📅 Controle de validades</li>
+                        <li>⚡ Ações rápidas</li>
+                    </ul>
+                </div>
+
+                <!-- Produtos -->
+                <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-box text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Gestão de Produtos</h3>
+                    <ul class="text-gray-600 space-y-2 text-sm">
+                        <li>📦 Cadastro completo</li>
+                        <li>📊 Controle de estoque</li>
+                        <li>💰 Cálculo de preços</li>
+                        <li>💾 Sistema de rascunhos</li>
+                    </ul>
+                </div>
+
+                <!-- Vendas -->
+                <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Central de Vendas</h3>
+                    <ul class="text-gray-600 space-y-2 text-sm">
+                        <li>🛒 Registro rápido</li>
+                        <li>🔍 Busca inteligente</li>
+                        <li>💳 Múltiplos pagamentos</li>
+                        <li>📈 Histórico completo</li>
+                    </ul>
+                </div>
+
+                <!-- Fornecedores -->
+                <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Rede de Fornecedores</h3>
+                    <ul class="text-gray-600 space-y-2 text-sm">
+                        <li>🏢 Cadastro detalhado</li>
+                        <li>📞 Contato direto</li>
+                        <li>💬 WhatsApp integrado</li>
+                        <li>🔗 Integração com alertas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="tech" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-16">
+                🛠️ Stack Tecnológico
+            </h2>
+            
+            <div class="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fab fa-react text-4xl text-blue-500 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">React 18</h3>
+                    <p class="text-sm text-gray-600">Framework</p>
+                </div>
+                
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fab fa-css3-alt text-4xl text-blue-400 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Tailwind</h3>
+                    <p class="text-sm text-gray-600">Styling</p>
+                </div>
+                
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fas fa-rocket text-4xl text-purple-500 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Vite</h3>
+                    <p class="text-sm text-gray-600">Build Tool</p>
+                </div>
+                
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fas fa-icons text-4xl text-green-500 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Lucide</h3>
+                    <p class="text-sm text-gray-600">Icons</p>
+                </div>
+                
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fas fa-database text-4xl text-orange-500 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">LocalStorage</h3>
+                    <p class="text-sm text-gray-600">Storage</p>
+                </div>
+                
+                <div class="card-hover bg-white rounded-xl p-6 text-center border border-gray-100 shadow-md">
+                    <i class="fab fa-js-square text-4xl text-yellow-500 mb-3"></i>
+                    <h3 class="font-bold text-gray-800">ES6+</h3>
+                    <p class="text-sm text-gray-600">JavaScript</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots/Demo -->
+    <section id="demo" class="py-20 px-4 bg-white/50">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-16">
+                📱 Interface Moderna
+            </h2>
+            
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 text-white mb-8">
+                    <h3 class="text-2xl font-bold mb-4">Dashboard em Tempo Real</h3>
+                    <div class="grid md:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <div class="text-3xl font-bold">R$ 45.2K</div>
+                            <div class="text-blue-100">Receita Total</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold">1,247</div>
+                            <div class="text-blue-100">Vendas</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold">89</div>
+                            <div class="text-blue-100">Produtos</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold animate-pulse">⚠️ 5</div>
+                            <div class="text-red-200">Estoque Baixo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 text-left">
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-bold text-gray-800 mb-2">🔔 Alertas Inteligentes</h4>
+                        <p class="text-sm text-gray-600">Notificações automáticas para estoque baixo e produtos vencendo</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-bold text-gray-800 mb-2">⚡ Ações Rápidas</h4>
+                        <p class="text-sm text-gray-600">Contato direto com fornecedores via telefone, email e WhatsApp</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-bold text-gray-800 mb-2">📊 Relatórios</h4>
+                        <p class="text-sm text-gray-600">Métricas detalhadas e análises de performance em tempo real</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Section -->
+    <section id="github" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8">
+                🚀 Como Executar o Projeto
+            </h2>
+            
+            <div class="bg-gray-900 rounded-2xl p-8 text-left text-green-400 font-mono text-sm shadow-xl">
+                <div class="mb-4">
+                    <span class="text-gray-500"># Clone o repositório</span><br>
+                    <span class="text-white">git clone</span> https://github.com/andersonsousa95/saleshub-pro.git
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-500"># Entre no diretório</span><br>
+                    <span class="text-white">cd</span> saleshub-pro
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-500"># Instale as dependências</span><br>
+                    <span class="text-white">npm install</span>
+                </div>
+                <div>
+                    <span class="text-gray-500"># Execute o projeto</span><br>
+                    <span class="text-white">npm run dev</span>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://github.com/andersonsousa95/saleshub-pro" class="bg-gray-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors">
+                    <i class="fab fa-github mr-2"></i>
+                    Ver no GitHub
+                </a>
+                <a href="#demo" class="bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-external-link-alt mr-2"></i>
+                    Demo Online
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 px-4 bg-white/50">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8">
+                👨‍💻 Desenvolvido por Anderson Sousa
+            </h2>
+            
+            <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+                        AS
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Anderson Sousa</h3>
+                        <p class="text-gray-600 mb-4">Desenvolvedor Full Stack especializado em React e sistemas de gestão</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <a href="mailto:anderson@exemplo.com" class="text-blue-600 hover:text-blue-800 transition-colors">
+                                <i class="fas fa-envelope mr-1"></i>
+                                Email
+                            </a>
+                            <a href="https://linkedin.com/in/anderson-sousa" class="text-blue-600 hover:text-blue-800 transition-colors">
+                                <i class="fab fa-linkedin mr-1"></i>
+                                LinkedIn
+                            </a>
+                            <a href="https://github.com/andersonsousa95" class="text-blue-600 hover:text-blue-800 transition-colors">
+                                <i class="fab fa-github mr-1"></i>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chart-line text-white text-lg"></i>
+                </div>
+                <h3 class="text-2xl font-bold">SalesHub Pro</h3>
+            </div>
+            <p class="text-gray-400 mb-6">Sistema de Gestão Empresarial Completo</p>
+            <div class="border-t border-gray-700 pt-6">
+                <p class="text-gray-500">
+                    © 2025 SalesHub Pro. Desenvolvido com ❤️ por Anderson Sousa
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
